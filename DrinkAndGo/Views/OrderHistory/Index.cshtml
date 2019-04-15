@@ -1,0 +1,17 @@
+﻿@using DrinkAndGo.Data.Models
+@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "OrderHistory";
+}
+<h2>OrderHistory</h2>
+
+<dl class="dl-horizontal">
+    @{
+        foreach (var Order in Model)
+        {
+            <dt>ID:</dt>
+            <dd>@Order.OrderId</dd>
+        }
+    }
+</dl>
