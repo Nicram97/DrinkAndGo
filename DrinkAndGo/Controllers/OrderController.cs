@@ -32,10 +32,9 @@ namespace DrinkAndGo.Controllers
         public IActionResult Checkout()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = _appDbContext.Users.Find(userId);
-            IdentityUser Us = new IdentityUser(user.UserName);
+            IdentityUser user = (IdentityUser) _appDbContext.Users.Find(userId);
 
-            ViewData["user"] = Us;
+            ViewData["user"] = user;
 
             return View();
         }
@@ -58,11 +57,9 @@ namespace DrinkAndGo.Controllers
                 return RedirectToAction("CheckoutComplete");
             }
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = _appDbContext.Users.Find(userId);
-            IdentityUser Us = new IdentityUser(user.UserName);
+            IdentityUser user = (IdentityUser)_appDbContext.Users.Find(userId);
 
-            ViewData["user"] = Us;
-
+            ViewData["user"] = user;
             return View(order);
         }
 
