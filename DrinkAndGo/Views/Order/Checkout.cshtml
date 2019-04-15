@@ -1,13 +1,18 @@
 ﻿@model Order
+@using Microsoft.AspNetCore.Identity;
+@{
+    IdentityUser user = (IdentityUser)ViewData["user"];
+}
 
 <div class="row orderForm ">
     <h3 class="text-center">You are just one step away from ordering your drinks.</h3>
 
     <form asp-action="Checkout" method="post" class="form-horizontal" role="form">
+        <input asp-for="UserId" type="hidden" value="@user.Id" />
         <div class="form-group">
             <label asp-for="LastName" class="col-md-2 control-label"></label>
             <div class="col-md-5">
-                <input asp-for="LastName" class="form-control" />
+                <input asp-for="LastName" class="form-control" value="@user.UserName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
         </div>
@@ -40,6 +45,14 @@
             <div class="col-md-5">
                 <input asp-for="ZipCode" class="form-control" />
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="City" class="col-md-2 control-label"></label>
+            <div class="col-md-5">
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
             </div>
         </div>
 

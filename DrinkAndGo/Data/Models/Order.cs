@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,6 +42,10 @@ namespace DrinkAndGo.Data.Models
         [StringLength(10)]
         public string State { get; set; }
 
+        [Required(ErrorMessage = "Please enter your City")]
+        [StringLength(50)]
+        public string City { get; set; }
+
         [Required(ErrorMessage = "Please enter your country")]
         [StringLength(50)]
         public string Country { get; set; }
@@ -64,5 +70,13 @@ namespace DrinkAndGo.Data.Models
         [BindNever]
         [ScaffoldColumn(false)]
         public DateTime OrderPlaced { get; set; }
+
+
+
+        [Required(ErrorMessage = "Please provide user")]
+        [Display(Name = "Username")]
+        public string UserId { get; set; }
+
+        public virtual IdentityUser User { get; set; }
     }
 }

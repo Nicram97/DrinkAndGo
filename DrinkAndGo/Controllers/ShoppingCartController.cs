@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using DrinkAndGo.Data;
 using DrinkAndGo.Data.interfaces;
 using DrinkAndGo.Data.Models;
 using DrinkAndGo.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrinkAndGo.Controllers
@@ -15,10 +19,13 @@ namespace DrinkAndGo.Controllers
         private readonly IDrinkRepository _drinkRepository;
         private readonly ShoppingCart _shoppingCart;
 
-        public ShoppingCartController(IDrinkRepository drinkRepository, ShoppingCart shoppingCart)
+        public ShoppingCartController(IDrinkRepository drinkRepository, ShoppingCart shoppingCart, IHttpContextAccessor httpContextAccessor, AppDbContext appDbContext)
         {
             _drinkRepository = drinkRepository;
             _shoppingCart = shoppingCart;
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = appDbContext.Users.Find(userId);
+            Console.WriteLine(userId);
         }
 
         [Authorize]
