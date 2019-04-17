@@ -6,12 +6,32 @@
 }
 <h2>OrderHistory</h2>
 
-<dl class="dl-horizontal">
-    @{
-        foreach (var Order in Model)
-        {
-            <dt>ID:</dt>
-            <dd>@Order.OrderId</dd>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kraj</th>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var Order in Model)
+            {
+                <tr>
+                    <td>@Order.Country</td>
+                    <td>@Order.OrderId</td>
+                    <td>@Order.Email</td>
+                    <td>@Order.FirstName</td>
+                    <td>@Order.LastName</td>
+                    <td>
+                        <a class="btn btn-info">SZCZEGÓŁY</a>
+                    </td>
+                </tr>
+            }
         }
-    }
-</dl>
+    </tbody>
+</table>
