@@ -44,6 +44,8 @@ namespace DrinkAndGo.Controllers
         public IActionResult Checkout(Order order)
         {
             var items = _shoppingCart.GetShoppingCartItems();
+            decimal total = _shoppingCart.GetShoppingCartTotal();
+            order.OrderTotal = total;
             _shoppingCart.ShoppingCartItems = items;
             if (_shoppingCart.ShoppingCartItems.Count == 0)
             {

@@ -7,8 +7,9 @@ namespace DrinkAndGo.Data.interfaces
 {
     public class Product
     {
-        public Product(int orderDetailId, string name, decimal price, decimal orderTotal, string isSent, int amount)
+        public Product(int orderId, int orderDetailId, string name, decimal price, decimal orderTotal, string isSent, int amount)
         {
+            OrderId = orderId;
             Id = orderDetailId;
             Name = name;
             Price = price;
@@ -17,6 +18,7 @@ namespace DrinkAndGo.Data.interfaces
             Amount = amount;
         }
 
+        public int OrderId { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }

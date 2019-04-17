@@ -53,14 +53,15 @@ namespace DrinkAndGo.Controllers
                       orderDetail => orderDetail.DrinkId,
                       drink => drink.DrinkId,
                       (orderDetail, drink) => new Product(
-                          orderDetail.OrderDetailId,
+                          orderDetail.OrderId,
+                          orderDetail.DrinkId,
                           drink.Name,
                           orderDetail.Price,
                           selectedOrder.OrderTotal,
                           isSent,
                           orderDetail.Amount
                       )
-                ).Where(detail => detail.Id == orderId).ToList();
+                ).Where(detail => detail.OrderId == orderId).ToList();
 
             if (selectedOrder == null || orderDetails == null)
             {
