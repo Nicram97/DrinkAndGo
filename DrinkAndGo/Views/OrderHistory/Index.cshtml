@@ -1,10 +1,10 @@
-﻿@using DrinkAndGo.Data.Models
-@model IEnumerable<Order>
-
-@{
+﻿@{
     ViewData["Title"] = "OrderHistory";
 }
-<h2>OrderHistory</h2>
+@{
+    IEnumerable<Order> Orders = (IEnumerable<Order>)ViewData["Orders"];
+}
+<h2>Order History</h2>
 
 <table class="table">
     <thead>
@@ -19,7 +19,7 @@
     </thead>
     <tbody>
         @{
-            foreach (var Order in Model)
+            foreach (var Order in Orders)
             {
                 <tr>
                     <td>@Order.Country</td>
@@ -28,7 +28,7 @@
                     <td>@Order.FirstName</td>
                     <td>@Order.LastName</td>
                     <td>
-                        <a class="btn btn-info">SZCZEGÓŁY</a>
+                        <a class="btn btn-info" asp-controller="OrderHistory" asp-action="Details" asp-route-orderId="@Order.OrderId">SZCZEGÓŁY</a>
                     </td>
                 </tr>
             }

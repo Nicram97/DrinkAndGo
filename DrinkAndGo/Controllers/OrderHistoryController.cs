@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using DrinkAndGo.Data;
 using DrinkAndGo.Data.interfaces;
 using DrinkAndGo.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrinkAndGo.Controllers
 {
+    [Authorize]
     public class OrderHistoryController : Controller
     {
         private readonly IOrderRepository _orderRepository;
@@ -32,7 +34,43 @@ namespace DrinkAndGo.Controllers
 
             _orders = _appDbContext.Orders.Where(order => order.UserId == user.Id);
 
+            ViewData["Orders"] = _orders;
+
             return View(_orders);
+        }
+
+        public ViewResult Details(int orderId)
+        {
+            var selectedOrder = _appDbContext.Orders.FirstOrDefault(p => p.OrderId == orderId);
+            string isSent = "W trakcie realizacji";
+            
+            if ((DateTime.Now - selectedOrder.OrderPlaced).TotalDays >= 3 ) {
+                isSent = "Zrealizowane";
+            }
+
+            List<Product> orderDetails = _appDbContext.OrderDetails.Join(
+                _appDbContext.Drinks,
+                      orderDetail => orderDetail.DrinkId,
+                      drink => drink.DrinkId,
+                      (orderDetail, drink) => new Product(
+                          orderDetail.OrderDetailId,
+                          drink.Name,
+                          orderDetail.Price,
+                          selectedOrder.OrderTotal,
+                          isSent,
+                          orderDetail.Amount
+                      )
+                ).Where(detail => detail.Id == orderId).ToList();
+
+            if (selectedOrder == null || orderDetails == null)
+            {
+                return View("~/Views/Error/Error.cshtml");
+            }
+
+            ViewData["Products"] = orderDetails;
+            ViewData["isSent"] = isSent;
+
+            return View(selectedOrder);
         }
     }
 }

@@ -86,6 +86,11 @@ namespace DrinkAndGo
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{Id?}");
+
+                routes.MapRoute(
+                   name: "orderdetails",
+                   template: "OrderHistory/Details/{orderId?}",
+                   defaults: new { Controller = "OrderHistory", action = "Details" });
             });
 
             DbInitializer.Seed(serviceProvider);
